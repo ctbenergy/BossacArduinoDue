@@ -35,7 +35,8 @@ REM * Tested with: Windows 7 64 Bit, Atmel Studio 6.0.1996 Service Pack 2, Ardui
 REM *
 REM ***********************************************************************************************************************
 REM ***********************************************************************************************************************
-REM * Copyright (C) 2013 by arduinodue.weinhandl.org
+REM * 
+REM * Copyright (C) 2013 by weinhandl.org
 REM * 
 REM * This program is free software: you can redistribute it and/or modify
 REM * it under the terms of the GNU General Public License as published by
