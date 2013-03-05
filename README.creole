@@ -11,27 +11,35 @@ Bossac ArduinoDue is a free, opensource, batch-file to programming Arduino Due w
 * Configure an 'External Tool' in Atmel Studio 6.
 ** Tools -> External Tools
 
-* Configure an debug build command
-** Titel: BossacArduinoDue(Debug)
-** Command: C:\Program Files (x86)\Atmel\Atmel Studio 6.0\BossacArduinoDue.bat
-** Arguments: "C:\Program Files (x86)\arduino-1.5.2\hardware\tools\bossac.exe" $(ProjectDir) $(ProjectFileName) Debug
-** Checkbox "Use Output Window".
+** Configure a debug build command
+*** Titel: BossacArduinoDue(Debug)
+*** Command: C:\Program Files (x86)\Atmel\Atmel Studio 6.0\BossacArduinoDue.bat
+*** Arguments: "C:\Program Files (x86)\arduino-1.5.2\hardware\tools\bossac.exe" "$(ProjectDir)\Debug\$(ProjectFileName).bin"
+*** Checkbox "Use Output Window".
 
-* Configure an release build command
-** Titel: BossacArduinoDue(Release)
-** Command: C:\Program Files (x86)\Atmel\Atmel Studio 6.0\BossacArduinoDue.bat
-** Arguments: "C:\Program Files (x86)\arduino-1.5.2\hardware\tools\bossac.exe" $(ProjectDir) $(ProjectFileName) Release
-** Checkbox "Use Output Window".
+** Configure a release build command
+*** Titel: BossacArduinoDue(Release)
+*** Command: C:\Program Files (x86)\Atmel\Atmel Studio 6.0\BossacArduinoDue.bat
+*** Arguments: "C:\Program Files (x86)\arduino-1.5.2\hardware\tools\bossac.exe" "$(ProjectDir)\Release\$(ProjectFileName).bin"
+*** Checkbox "Use Output Window".
 
-* Call 'External Tool' in Atmel Studio 6.
-** Tools -> BossacArduinoDue(Debug) for Debug Build
-** Tools -> BossacArduinoDue(Release) for Release Build
+** Call 'External Tool' in Atmel Studio 6.
+*** Tools -> BossacArduinoDue(Debug) for Debug Build
+*** Tools -> BossacArduinoDue(Release) for Release Build
+
+* Configure a post build events
+** "$(DevEnvDir)\BossacArduinoDue.bat" "C:\Program Files (x86)\arduino-1.5.2\hardware\tools\bossac.exe" "$(OutputDirectory)\$(OutputFileName).bin"
 
 ==History
 
 * Version 0.01
 ** Tested with: Windows 7 64 Bit, Atmel Studio 6.0.1996 Service Pack 2, Arduino-1.5.2
 
+* Version 0.02
+** Changes for post build events.
+** Command line argument 2 is now the bin-file path.
+** Command line argument 3 and 4 removed.
+** Tested with: Windows 7 64 Bit, Atmel Studio 6.0.1996 Service Pack 2, Arduino-1.5.2
 
 ==Copyright and License
 
