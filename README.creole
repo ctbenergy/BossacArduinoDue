@@ -10,26 +10,26 @@ Bossac ArduinoDue is a free, opensource, batch-file to programming Arduino Due w
 
 === Primary usage:
 
-# Copy batch file "BossacArduinoDue.bat" into Atmel Studio 6 Program Folder (C:\Program Files (x86)\Atmel\Atmel Studio 6.0)
-# Configure an 'External Tool' in Atmel Studio 6 (Tools -> External Tools).
-## Configure a debug build command
-## Titel: BossacArduinoDue(Debug)
-## Command: C:\Program Files (x86)\Atmel\Atmel Studio 6.0\BossacArduinoDue.bat
-## Arguments: "C:\Program Files (x86)\arduino-1.5.2\hardware\tools\bossac.exe" "$(ProjectDir)\Debug\$(ProjectFileName).bin"
-## Checkbox "Use Output Window".
-# Configure a release build command
-## Titel: BossacArduinoDue(Release)
-## Command: C:\Program Files (x86)\Atmel\Atmel Studio 6.0\BossacArduinoDue.bat
-## Arguments: "C:\Program Files (x86)\arduino-1.5.2\hardware\tools\bossac.exe" "$(ProjectDir)\Release\$(ProjectFileName).bin"
-## Checkbox "Use Output Window".
-# Call 'External Tool' in Atmel Studio 6.
-## Tools -> BossacArduinoDue(Debug) for Debug Build or BossacArduinoDue(Release) for Release Build
+* Copy batch file "BossacArduinoDue.bat" into Atmel Studio 6 Program Folder (C:\Program Files (x86)\Atmel\Atmel Studio 6.0)
+* Configure an 'External Tool' in Atmel Studio 6 (Tools -> External Tools).
+** Configure a debug build command
+*** Titel: BossacArduinoDue(Debug)
+*** Command: C:\Program Files (x86)\Atmel\Atmel Studio 6.0\BossacArduinoDue.bat
+*** Arguments: "C:\Program Files (x86)\arduino-1.5.2\hardware\tools\bossac.exe" "$(ProjectDir)\Debug\$(ProjectFileName).bin"
+*** Checkbox "Use Output Window".
+** Configure a release build command
+*** Titel: BossacArduinoDue(Release)
+*** Command: C:\Program Files (x86)\Atmel\Atmel Studio 6.0\BossacArduinoDue.bat
+*** Arguments: "C:\Program Files (x86)\arduino-1.5.2\hardware\tools\bossac.exe" "$(ProjectDir)\Release\$(ProjectFileName).bin"
+*** Checkbox "Use Output Window".
+* Call 'External Tool' in Atmel Studio 6.
+** Tools -> BossacArduinoDue(Debug) for Debug Build or BossacArduinoDue(Release) for Release Build
 
 === Alternative usage:
 
-# Copy batch file "BossacArduinoDue.bat" into Atmel Studio 6 Program Folder (C:\Program Files (x86)\Atmel\Atmel Studio 6.0)
-# Configure a post build events
-## "$(DevEnvDir)\BossacArduinoDue.bat" "C:\Program Files (x86)\arduino-1.5.2\hardware\tools\bossac.exe" "$(OutputDirectory)\$(OutputFileName).bin"
+* Copy batch file "BossacArduinoDue.bat" into Atmel Studio 6 Program Folder (C:\Program Files (x86)\Atmel\Atmel Studio 6.0)
+* Configure a post build event in the project proberties.
+** "$(DevEnvDir)\BossacArduinoDue.bat" "C:\Program Files (x86)\arduino-1.5.2\hardware\tools\bossac.exe" "$(OutputDirectory)\$(OutputFileName).bin"
 
 == History
 

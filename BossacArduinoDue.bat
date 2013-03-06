@@ -5,9 +5,13 @@ REM * Description:
 REM *
 REM * Programming Arduino Due with Bossac in Atmel Studio 6
 REM *
-REM * 1.  Copy this batch file into Atmel Studio 6 Program Folder (C:\Program Files (x86)\Atmel\Atmel Studio 6.0)
+REM *----------------------------------------------------------------------------------------------------------------------
 REM *
-REM * 2.  Configure an 'External Tool' in Atmel Studio 6 (Tools -> External Tools...).
+REM * Primary usage:
+REM *
+REM * 1. Copy this batch file into Atmel Studio 6 Program Folder (C:\Program Files (x86)\Atmel\Atmel Studio 6.0)
+REM *
+REM * 2. Configure an 'External Tool' in Atmel Studio 6 (Tools -> External Tools...).
 REM *
 REM * 2.1 Configure a debug build command
 REM *     Titel: BossacArduinoDue(Debug)
@@ -21,11 +25,16 @@ REM *      Command: C:\Program Files (x86)\Atmel\Atmel Studio 6.0\BossacArduinoD
 REM *      Arguments: "C:\Program Files (x86)\arduino-1.5.2\hardware\tools\bossac.exe" "$(ProjectDir)\Release\$(ProjectFileName).bin"
 REM *      Checkbox "Use Output Window".
 REM *
-REM * 2.3. Call 'External Tool' in Atmel Studio 6.
-REM *      Tools -> BossacArduinoDue(Debug) for Debug Build
-REM *      Tools -> BossacArduinoDue(Release) for Release Build
+REM * 3. Call 'External Tool' in Atmel Studio 6.
+REM *    Tools -> BossacArduinoDue(Debug) for Debug Build or BossacArduinoDue(Release) for Release Build
 REM *
-REM * 3.  Configure a post build events
+REM *----------------------------------------------------------------------------------------------------------------------
+REM *
+REM * Alternative usage:
+REM *
+REM * 1.  Copy this batch file into Atmel Studio 6 Program Folder (C:\Program Files (x86)\Atmel\Atmel Studio 6.0)
+REM *
+REM * 2.  Configure a post build event in the project proberties.
 REM *     "$(DevEnvDir)\BossacArduinoDue.bat" "C:\Program Files (x86)\arduino-1.5.2\hardware\tools\bossac.exe" "$(OutputDirectory)\$(OutputFileName).bin"
 REM *
 REM *----------------------------------------------------------------------------------------------------------------------
