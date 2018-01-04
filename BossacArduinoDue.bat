@@ -3,11 +3,11 @@ REM ****************************************************************************
 REM ***********************************************************************************************************************
 REM * Description:
 REM *
-REM * Programming Arduino Due with Bossac in Atmel Studio 6
+REM * Programming Arduino Due with Bossac in Atmel Studio 6 and Atmel Studio 7
 REM *
 REM *----------------------------------------------------------------------------------------------------------------------
 REM *
-REM * Primary usage:
+REM * Primary usage Atmel Studio 6:
 REM *
 REM * 1. Copy this batch file into Atmel Studio 6 Program Folder (C:\Program Files (x86)\Atmel\Atmel Studio 6.0)
 REM *
@@ -30,12 +30,44 @@ REM *    Tools -> BossacArduinoDue(Debug) for Debug Build or BossacArduinoDue(Re
 REM *
 REM *----------------------------------------------------------------------------------------------------------------------
 REM *
-REM * Alternative usage:
+REM * Alternative usage Atmel Studio 6:
 REM *
 REM * 1.  Copy this batch file into Atmel Studio 6 Program Folder (C:\Program Files (x86)\Atmel\Atmel Studio 6.0)
 REM *
-REM * 2.  Configure a post build event in the project proberties.
+REM * 2.  Configure a post build event in the project properties.
 REM *     "$(DevEnvDir)\BossacArduinoDue.bat" "C:\Program Files (x86)\arduino-1.5.2\hardware\tools\bossac.exe" "$(OutputDirectory)\$(OutputFileName).bin"
+REM *
+REM *----------------------------------------------------------------------------------------------------------------------
+REM *
+REM * Primary usage Atmel Studio 7:
+REM *
+REM * 1. Copy this batch file into Atmel Studio 7 Program Folder (C:\Program Files (x86)\Atmel\Studio\7.0)
+REM *
+REM * 2. Configure an 'External Tool' in Atmel Studio 7 (Tools -> External Tools...).
+REM *
+REM * 2.1 Configure a debug build command
+REM *     Titel: BossacArduinoDue(Debug)
+REM *     Command: C:\Program Files (x86)\Atmel\Studio\7.0\BossacArduinoDue.bat
+REM *     Arguments: "C:\Program Files (x86)\BOSSA\bossac.exe" "$(ProjectDir)\Debug\$(ProjectFileName).bin"
+REM *     Checkbox "Use Output Window".
+REM *
+REM * 2.2. Configure a release build command
+REM *      Titel: BossacArduinoDue(Release)
+REM *      Command: C:\Program Files (x86)\Atmel\Studio\7.0\BossacArduinoDue.bat
+REM *      Arguments: "C:\Program Files (x86)\BOSSA\bossac.exe" "$(ProjectDir)\Release\$(ProjectFileName).bin"
+REM *      Checkbox "Use Output Window".
+REM *
+REM * 3. Call 'External Tool' in Atmel Studio 7.
+REM *    Tools -> BossacArduinoDue(Debug) for Debug Build or BossacArduinoDue(Release) for Release Build
+REM *
+REM *----------------------------------------------------------------------------------------------------------------------
+REM *
+REM * Alternative usage Atmel Studio 7:
+REM *
+REM * 1.  Copy this batch file into Atmel Studio 7 Program Folder (C:\Program Files (x86)\Atmel\Studio\7.0)
+REM *
+REM * 2.  Configure a post build event in the project properties.
+REM *     "$(DevEnvDir)\BossacArduinoDue.bat" "C:\Program Files (x86)\BOSSA\bossac.exe" "$(OutputDirectory)\$(OutputFileName).bin"
 REM *
 REM *----------------------------------------------------------------------------------------------------------------------
 REM * Version	: 0.01
@@ -55,6 +87,15 @@ REM * Command line argument 2 is now the bin-file path.
 REM * Command line argument 3 and 4 removed.
 REM * 
 REM * Tested with: Windows 7 64 Bit, Atmel Studio 6.0.1996 Service Pack 2, Arduino-1.5.2
+REM *
+REM *----------------------------------------------------------------------------------------------------------------------
+REM * Version	: 0.03
+REM * Date		: 02.01.2018
+REM * Name		: Ewald Weinhandl
+REM * 
+REM * Changes for Atmel Studio 7 and fetch DeviceID of Arduino Due Programming Port from WMI Service.
+REM * 
+REM * Tested with: Windows 10 64 Bit, Atmel Studio 7.0.1645, Arduino-1.8.5
 REM *
 REM ***********************************************************************************************************************
 REM ***********************************************************************************************************************
@@ -104,10 +145,18 @@ REM bin file exist?
 IF NOT EXIST "%BINFILE%" GOTO error_binfile
 
 REM fetch DeviceID of Arduino Due Programming Port from WMI Service
-FOR /f "usebackq" %%B IN (`wmic PATH Win32_SerialPort Where "Caption LIKE '%%Arduino Due Programming Port%%'" Get DeviceID ^| FIND "COM"`) DO SET COMPORT=%%B
+FOR /f "tokens=* skip=1" %%a IN ('wmic PATH Win32_SerialPort Where "Caption LIKE '%%Arduino Due Programming Port%%'" get DeviceID') DO (
+    SET COMX=%%a
+    GOTO exit1
+)
 
-REM Arduino Due Programming Port exist?
-IF [%COMPORT%]==[] GOTO error_comport
+REM Arduino Due Programming Port not exist
+GOTO error_comport
+
+:exit1
+
+REM remove blank
+SET COMPORT=%COMX: =%
 
 REM report in Atmel Studio 6.0 IDE output window
 ECHO BossacPath=%BOSSACPATH%
@@ -117,8 +166,9 @@ ECHO Arduino Due Programming Port is detected as %COMPORT%.
 REM The bossac bootloader only runs if the memory on Arduino Due is erased.
 REM The Arduino IDE does this by opening and closing the COM port at 1200 baud.
 REM This causes the Due to execute a soft erase command.
-ECHO Execute a soft erase command on Arduino Due.
-MODE %COMPORT%:1200,n,8,1
+ECHO Forcing reset using 1200bps open/close on port 
+ECHO MODE %COMPORT%:1200,N,8,1
+MODE %COMPORT%:1200,N,8,1
 
 REM Wait X second for memory on Arduino Due is erased.
 ECHO Wait for memory on Arduino Due is erased...
@@ -126,8 +176,8 @@ PING -n %WAIT_ERASED% 127.0.0.1>NUL
 
 REM Execute bossac.exe
 ECHO Execute bossac with command line:
-ECHO "%BOSSACPATH%" --port=%COMPORT% -U false -e -w -v -b -R "%BINFILE%"
-START /WAIT "" "%BOSSACPATH%" --port=%COMPORT% -U false -e -w -v -b -R "%BINFILE%"
+ECHO "%BOSSACPATH%" -i -d --port=%COMPORT% -U false -e -w -v -b "%BINFILE%" -R
+START /WAIT "" "%BOSSACPATH%" -i -d --port=%COMPORT% -U false -e -w -v -b "%BINFILE%" -R
 
 GOTO end
 
@@ -136,7 +186,7 @@ ECHO Error: wrong number of command line arguments passed!
 GOTO end
 
 :error_arg1
-ECHO Error: command line argument 1 - path to bossac.exe not exist! - "C:\Program Files (x86)\arduino-1.5.2\hardware\tools bossac.exe"
+ECHO Error: command line argument 1 - path to bossac.exe not exist! - "C:\Program Files (x86)\arduino-1.5.2\hardware\tools\bossac.exe"
 ECHO Error: command line argument 1 - argument passed = %1
 GOTO end
 

@@ -1,10 +1,10 @@
 = BossacArduinoDue
 
-Programming Arduino Due with Bossac in Atmel Studio 6
+Programming Arduino Due with Bossac in Atmel Studio 6 and Atmel Studio 7
 
 == Overview
 
-Bossac ArduinoDue is a free, opensource, batch-file to programming Arduino Due with Bossac in Atmel Studio 6
+Bossac ArduinoDue is a free, opensource, batch-file to programming Arduino Due with Bossac in Atmel Studio 6 and Atmel Studio 7
 
 == Usage
 
@@ -41,6 +41,10 @@ Bossac ArduinoDue is a free, opensource, batch-file to programming Arduino Due w
 ** Command line argument 2 is now the bin-file path.
 ** Command line argument 3 and 4 removed.
 ** Tested with: Windows 7 64 Bit, Atmel Studio 6.0.1996 Service Pack 2, Arduino-1.5.2
+
+* Version 0.03
+** Changes for Atmel Studio 7 and fetch DeviceID of Arduino Due Programming Port from WMI Service.
+** Tested with: Windows 10 64 Bit, Atmel Studio 7.0.1645, Arduino-1.8.5
 
 == Copyright and License
 
